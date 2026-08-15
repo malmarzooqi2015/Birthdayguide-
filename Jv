@@ -1,0 +1,7 @@
+const gifts = [
+    "Dyson Airwrap",
+    "Birthday dinner at Nobu",
+    "Billie Eilish tickets",
+    "House of CB dress",
+    "Vegas weekend"
+];
