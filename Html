@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anna's 21st Gift Calculator</title>
+    <style>
+        :root {
+            --bg-pink: #FF3366;
+            --card-pink: #FF4D79;
+            --yellow-accent: #FFE800;
+            --text-dark: #222222;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-pink);
+            color: var(--white);
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .card {
+            background-color: var(--card-pink);
+            border-radius: 28px;
+            padding: 32px 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card.active {
+            display: flex;
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.3;
+        }
+
+        .options-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background-color: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: var(--white);
+            padding: 14px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .option-btn:hover, .option-btn.selected {
+            background-color: var(--yellow-accent);
+            border-color: var(--yellow-accent);
+            color: var(--text-dark);
+        }
+
+        .primary-btn {
+            background-color: var(--yellow-accent);
+            color: var(--text-dark);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* Results Screen Styling */
+        .results-card {
+            background-color: var(--white);
+            color: var(--text-dark);
+        }
+
+        .results-title {
+            color: var(--bg-pink);
+            font-size: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .gift-list {
+            list-style-type: disc;
+            text-align: left;
+            padding-left: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 2;
+            margin-bottom: 24px;
+            width: 100%;
+        }
+
+        .result-quote {
+            font-size: 13px;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Landing Screen -->
+        <div class="card active" id="step-0">
+            <div class="icon">🎁</div>
+            <h1>ANNA'S 21ST<br>GIFT CALCULATOR</h1>
+            <p class="subtitle">Find out what you owe me 💋</p>
+            <button class="primary-btn" onclick="nextStep(1)">Let's go ➔</button>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="card" id="step-1">
+            <h2>How close are we?</h2>
+            <div class="options-list">
+                <button class="option-btn" onclick="selectOption(1, 'Immediate family')">Immediate family</button>
+                <button class="option-btn" onclick="selectOption(1, 'Best friend')">Best friend</button>
+                <button class="option-btn" onclick="selectOption(1, 'Friend')">Friend</button>
+                <button class="option-btn" onclick="selectOption(1, 'Guy who likes my stories')">Guy who likes my stories</button>
+                <button class="option-btn" onclick="selectOption(1, 'Person who forgot last year')">Person who forgot last year</button>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="card" id="step-2">
+            <h2>Have you annoyed me this year?</h2>
+            <div class="options-list">
+                <button class="option-btn" onclick="selectOption(2, 'No, I\'m innocent')">No, I'm innocent</button>
+                <button class="option-btn" onclick="selectOption(2, 'A little')">A little</button>
+                <button class="option-btn" onclick="selectOption(2, 'Yes, but I\'m funny')">Yes, but I'm funny</button>
+                <button class="option-btn" onclick="selectOption(2, 'Yes, and I owe you')">Yes, and I owe you</button>
+                <button class="option-btn" onclick="selectOption(2, 'I plead the fifth')">I plead the fifth</button>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="card" id="step-3">
+            <h2>What's your budget?</h2>
+            <div class="options-list">
+                <button class="option-btn" onclick="selectOption(3, 'Cute but humble')">Cute but humble</button>
+                <button class="option-btn" onclick="selectOption(3, 'I can do Sephora')">I can do Sephora</button>
+                <button class="option-btn" onclick="selectOption(3, 'I\'m emotionally invested')">I'm emotionally invested</button>
+                <button class="option-btn" onclick="selectOption(3, 'Put me in debt')">Put me in debt</button>
+                <button class="option-btn" onclick="selectOption(3, 'Whatever keeps you from posting about me')">Whatever keeps you from posting about me</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="card results-card" id="step-4">
+            <div class="icon">🎁</div>
+            <div class="results-title">YOUR ASSIGNED GIFT IS...</div>
+            <ul class="gift-list" id="assigned-gifts">
+                <!-- Dynamically populated -->
+            </ul>
+            <div class="result-quote" id="result-quote">"You're healing the family."</div>
+            <button class="primary-btn" onclick="nextStep(0)">I accept my fate ➔</button>
+        </div>
+    </div>
+
+    <script>
+        // Track selected choices
+        const userChoices = {};
+
+        function selectOption(step, value) {
+            userChoices[`step${step}`] = value;
+            
+            // Highlight button feedback briefly
+            const currentCard = document.getElementById(`step-${step}`);
+            const buttons = currentCard.querySelectorAll('.option-btn');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+
+            // Move to next step
+            setTimeout(() => {
+                nextStep(step + 1);
+            }, 250);
+        }
+
+        function nextStep(stepNumber) {
+            // Hide all cards
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Show target card
+            const targetCard = document.getElementById(`step-${stepNumber}`);
+            if (targetCard) {
+                targetCard.classList.add('active');
+            }
+
+            // Generate results if on the final card
+            if (stepNumber === 4) {
+                generateGifts();
+            }
+        }
+
+        function generateGifts() {
+            const giftList = document.getElementById('assigned-gifts');
+            giftList.innerHTML = '';
+
+            // Default tiered gift list based on video
+            const gifts = [
+                "Dyson Airwrap",
+                "Birthday dinner at Nobu",
+                "Billie Eilish tickets",
+                "House of CB dress",
+                "Vegas weekend"
+            ];
+
+            // Render gifts
+            gifts.forEach(gift => {
+                const li = document.createElement('li');
+                li.textContent = gift;
+                giftList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
